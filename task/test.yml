@@ -1,17 +1,11 @@
 ---
-- name: Configure Cisco Nexus Interfaces
-  hosts: L1
-  gather_facts: no
-  # vars_files:
-  #   - vars/interfaces.yml
+- name: Generate BGP configuration for all devices
+  hosts: all
+  gather_facts: false
 
   tasks:
-    - name: Render interface configuration
+    - name: Render BGP configuration
       template:
-        src: ../templates/interface_config.j2
-        dest: /tmp/interface_config.cfg
-
-    - name: Push config to Nexus switch
-      nxos_config:
-        src: /tmp/interface_config.cfg
-        save_when: modified
+        src: ../templates/bgp_config.j2
+        dest: ../tmp/bgp_config_{{ inventory_hostname }}.cfg
+      delegate_to: localhost

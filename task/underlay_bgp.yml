@@ -1,0 +1,18 @@
+---
+- name: Configure Cisco Nexus BGP
+  hosts: all
+  gather_facts: no
+  # vars_files:
+  #   - vars/interfaces.yml
+
+  tasks:
+    - name: Render BGPIM configuration
+      template:
+        src: ../templates/bgp_config.j2
+        dest: ../tmp/bgp_config_{{ inventory_hostname }}.cfg
+      delegate_to: localhost
+
+    - name: Push config to Nexus switch
+      nxos_config:
+        src: ../tmp/bgp_config_{{ inventory_hostname }}.cfg
+        save_when: modified

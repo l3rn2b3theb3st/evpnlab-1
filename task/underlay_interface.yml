@@ -1,0 +1,17 @@
+---
+- name: Configure Cisco Nexus Interfaces
+  hosts: all
+  gather_facts: no
+  # vars_files:
+  #   - vars/interfaces.yml
+
+  tasks:
+    - name: Render interface configuration
+      template:
+        src: ../templates/interface_config.j2
+        dest: ./tmp/interface_config_{{ inventory_hostname }}.cfg
+
+    - name: Push config to Nexus switch
+      nxos_config:
+        src: ../tmp/interface_config_{{ inventory_hostname }}.cfg
+        save_when: modified

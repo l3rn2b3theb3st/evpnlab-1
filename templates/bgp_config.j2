@@ -1,0 +1,32 @@
+feature bgp
+feature nv overlay
+nv overlay evpn
+
+router bgp {{ BGP_ASN}}
+  router-id {{ RID}}
+  log-neighbor-changes
+!
+{% if role == 'SPINE' %}
+!--- Generate Spine configuration ---
+!
+  neighbor {{ neighbor_subnet }}
+    remote-as {{ BGP_ASN}}
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community extended
+      route-reflector-client
+!
+{% elif role == 'LEAF' %}
+  {% set bgp_neighbors = [hostvars['S1'].Loopback0, hostvars['S2'].Loopback0] %}
+  {% for neighbor in bgp_neighbors %}
+  neighbor {{ neighbor }}
+    remote-as {{ BGP_ASN }}
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community extended
+  {% endfor %}
+
+{% else %}
+--- Unknown role ---
+! Role {{ role }} not recognized
+{% endif %}

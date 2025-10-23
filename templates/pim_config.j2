@@ -1,0 +1,41 @@
+
+!--- Generate ALL configuration ---
+!
+feature pim
+!
+{% for interface in interfaces %}
+interface Ethernet{{ interface.name }}
+  ip pim sparse-mode
+{% endfor %}
+
+{% if role == 'SPINE' %}
+!--- Generate Spine configuration ---
+!
+ip pim rp-address {{ Loopback1 }} group-list {{ pim_group_list }}
+ip pim anycast-rp {{ Loopback1 }} {{ hostvars['S1'].Loopback0 }}
+ip pim anycast-rp {{ Loopback1 }} {{ hostvars['S2'].Loopback0 }}
+!
+interface lo0
+  ip address {{ Loopback0 }}/32
+  ip router ospf {{ ospf_process }} area {{ ospf_area}}
+  ip pim sparse-mode
+!
+interface lo1
+  ip address {{ Loopback1 }}/32
+  ip router ospf {{ ospf_process }} area {{ ospf_area}}
+  ip pim sparse-mode
+
+{% elif role == 'LEAF' %}
+! --- Generate Leaf configuration ---
+!
+ip pim rp-address {{ hostvars['S1'].Loopback1 }} group-list {{ pim_group_list }}
+!
+interface lo0
+  ip address {{ Loopback0 }}/32
+  ip router ospf {{ ospf_process }} area {{ ospf_area}}
+  ip pim sparse-mode
+
+{% else %}
+--- Unknown role ---
+! Role {{ role }} not recognized
+{% endif %}

@@ -1,31 +1,11 @@
 ---
 # leaf 2
-Loopback0: 10.12.12.12/32
-Loopback1: 10.51.51.51/32
+RID: 2.2.2.2
+Loopback0: 10.0.0.12
 interfaces:
-  - eos_if: "Ethernet49/1"    
-    desc: "LAB-LEAF-1_Ethernet49/1"    
-    enabled: true    
-    mode: layer2   
-  - eos_if: "Ethernet50/1"    
-    desc: "LAB-LEAF-1_Ethernet50/1"    
-    enabled: true    
-    mode: layer2    
-  - eos_if: "Ethernet51/1"    
-    desc: "LAB-SPINE-1_Ethernet2/1"    
-    enabled: true    
-    mode: layer3    
-    ipv4: 10.10.1.6/30
-  - eos_if: "Ethernet52/1"    
-    desc: "LAB-SPINE-2_Ethernet2/1"    
-    enabled: true    
-    mode: layer3    
-    ipv4: 10.10.2.6/30
-  - eos_if: "lo0"    
-    desc: "BGP_ID"    
-    enabled: true    
-    ipv4: 10.12.12.12/32
-  - eos_if: "lo1"    
-    desc: "anycast_distribute"    
-    enabled: true    
-    ipv4: 10.51.51.51/32
+  - name: "1/1"    
+    description: "SPINE-1"    
+    ip: 10.1.2.2/30    
+  - name: "1/2"    
+    description: "SPINE-2"    
+    ip: 10.2.2.2/30

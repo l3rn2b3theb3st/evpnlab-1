@@ -1,0 +1,22 @@
+---
+- name: "Default interafce configuration"
+  hosts: all
+  gather_facts: no
+
+  tasks:
+#==================================== INTERFACES PHYSICAL CONFIG TASK =====================================
+ 
+    # - name: Delete Loopback interface
+    #   cisco.nxos.nxos_config:
+    #     lines:
+    #       - no interface Loopback0
+    #       - no interface Loopback1    
+
+    - name: Delete Physical interface
+      cisco.nxos.nxos_config:
+        lines:
+          - default int Ethernet1/1
+          - default int Ethernet1/2
+          - default int Ethernet1/3
+          - default int Loopback0
+          - default int Loopback2          

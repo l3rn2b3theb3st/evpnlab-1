@@ -1,0 +1,6 @@
+---
+# Default LEAVES Variables
+role: SPINE
+Loopback1: 10.0.0.100
+pim_group_list: 239.0.0.0/8
+neighbor_subnet: 10.0.0.0/24

@@ -1,6 +1,6 @@
 ---
 - name: "CONFIG DEVICE INTERFACES"
-  hosts: uat
+  hosts: all
   gather_facts: no
 
   tasks:
@@ -8,13 +8,8 @@
   # tasks send command to configure using "arista.eos.eos_config"
 
     - name: Send command to configure
-      arista.eos.eos_config:
+      cisco.nxos.nxos_config:
         lines:
-          # - service routing protocols model multi-agent
-          # - ip routing
-          # - username quyenpt-pc privilege 15 role network-admin secret MWrMpR/b3JujVFWW
-          - username netman privilege 15 role network-admin secret 76So%cRl7VsIrSL
-          # - aaa authorization policy local default-role read_only
-          # - aaa authorization exec default local
-          # - aaa authorization commands all default local
-      when: ansible_network_os == 'arista.eos.eos'
+          - int Loopback0
+          - ip router ospf {{ ospf_process }} area {{ ospf_area}}
+

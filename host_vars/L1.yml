@@ -1,7 +1,7 @@
 ---
 # leaf 1
-Loopback0: 1.1.1./32
-Loopback1: 10.51.51.51/32
+RID: 1.1.1.1
+Loopback0: 10.0.0.11
 interfaces:
   - name: "1/1"    
     description: "SPINE-1"    
