@@ -1,0 +1,28 @@
+---
+
+  - name: OPERATIONAL COMMAND ON DEVICES
+    hosts: uat
+    # connection: network_cli
+    gather_facts: no
+
+    tasks:
+
+      - name: SEND A SINGLE COMMAND
+        eos_command:
+          commands: show lldp neighbor
+        register: output
+
+      - name: VIEW FIRST ELEMENT OF A LIST
+        debug:
+          var: output['stdout'][0]
+
+      # - name: SEND LIST OF COMMANDS
+      #   eos_command:
+      #     commands:
+      #       # - show version
+      #       - show ip interface brief
+      #   register: output
+
+      # - name: VIEW SECOND ELEMENT OF A LIST
+      #   debug:
+      #     var: output['stdout'][1]

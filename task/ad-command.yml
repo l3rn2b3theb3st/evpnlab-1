@@ -1,0 +1,20 @@
+---
+- name: "CONFIG DEVICE INTERFACES"
+  hosts: uat
+  gather_facts: no
+
+  tasks:
+#==================================== SEND COMMAND CONFIG TASK =====================================
+  # tasks send command to configure using "arista.eos.eos_config"
+
+    - name: Send command to configure
+      arista.eos.eos_config:
+        lines:
+          # - service routing protocols model multi-agent
+          # - ip routing
+          # - username quyenpt-pc privilege 15 role network-admin secret MWrMpR/b3JujVFWW
+          - username netman privilege 15 role network-admin secret 76So%cRl7VsIrSL
+          # - aaa authorization policy local default-role read_only
+          # - aaa authorization exec default local
+          # - aaa authorization commands all default local
+      when: ansible_network_os == 'arista.eos.eos'

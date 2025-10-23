@@ -1,0 +1,44 @@
+---
+- name: "CONFIG DEVICE INTERFACES"
+  hosts: uat
+  gather_facts: no
+
+  tasks:
+#==================================== SEND COMMAND CONFIG TASK =====================================
+  # tasks send command to configure using "arista.eos.eos_config"
+
+    - name: define role read_only into the device
+      arista.eos.eos_config:
+        lines:
+          - 5 deny mode config command .*
+          - 10 deny mode config-all command .*
+          - 15 permit mode exec command show .*
+ #         - 20 permit mode exec command show running-config all
+          - 50 permit command show *
+          - 100 deny command .*
+        parents: role read_only
+        before: no role read_only
+        replace: block	 
+
+    - name: Send command to configure
+      arista.eos.eos_config:
+        lines:
+          # - username netman privilege 15 role network-admin secret 76So%cRl7VsIrSL
+          # - username netman privilege 1 role read_only secret 76So%cRl7VsIrSL
+          - aaa authorization policy local default-role no_access
+          # - aaa authorization exec default local
+          # - aaa authorization commands all default local
+
+# role RO-ROLE
+# 10 deny mode exec command configure|bash|python-shell|\|
+# 20 deny mode exec command reload
+# 30 deny mode exec command clear
+# 40 permit mode exec command .*
+
+# --------------------------------
+# By default, the three privilege levels are:
+# Level 0 - Includes only basic commands (disable, enable, exit, help, and logout)
+# Level 1 - Includes all commands available at the User EXEC command mode
+# Level 15 - Includes all commands available at the Privileged EXEC command mode
+# The levels between these minimum and maximum levels are undefined until the administrator assigns commands and/or users to them.
+# Therefore, the administrator can assign users different privilege levels in between these minimum and maximum privilege levels to separate what different users have access to.

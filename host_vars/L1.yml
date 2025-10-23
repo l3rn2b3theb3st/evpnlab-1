@@ -1,0 +1,11 @@
+---
+# leaf 1
+Loopback0: 1.1.1./32
+Loopback1: 10.51.51.51/32
+interfaces:
+  - name: "1/1"    
+    description: "SPINE-1"    
+    ip: 10.1.1.2/30    
+  - name: "1/2"    
+    description: "SPINE-2"    
+    ip: 10.2.1.2/30

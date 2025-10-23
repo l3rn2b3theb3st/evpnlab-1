@@ -1,0 +1,45 @@
+---
+  - name: GATHER FACTS FROM  DEVICES 
+    hosts: cat8k, csr 
+    # connection: network_cli 
+    gather_facts: no 
+
+    tasks: 
+
+      # - name: GATHER ALL FACTS 
+      #   eos_facts: 
+      #   # register: output
+      #   register: eos_facts
+
+      # - name: VIEW SPECIFIC KEY, VERSION
+      #   debug:
+      #     var: ansible_net_version
+
+      # - name: VIEW SPECIFIC KEY, HOSTNAME
+      #   debug:
+      #     var: ansible_net_hostname
+
+      # - name: VIEW FACTS
+      #   debug:
+      #     var: ios_facts['ansible_facts'].keys()
+
+
+     - name: COLLECT ONLY THE CONFIG AND DEFFAULT FACTS 
+       ios_facts: 
+         gather_subset: 
+           - config 
+       register: config 
+
+     - name: DO NOT COLLECT HARDWARE FACTS 
+       ios_facts: 
+         gather_subset: 
+           - "!hardware" 
+       register: not_hardware 
+
+     - name: VIEW CONFIG 
+       debug: 
+         var: config 
+
+     - name: VIEW EVERTHING EXCEPT HARDWARE 
+       debug: 
+         var: not_hardware

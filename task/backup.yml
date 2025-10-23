@@ -1,0 +1,50 @@
+---
+## Playbook to get system time in format yyyymmdd_hhmm and append it to backup files
+
+- name: Gather Date/Time Facts and Store in Custom Format
+  hosts: localhost
+  gather_facts: yes
+  become: no
+
+  tasks:
+    - name: Get ansible date/time facts
+      setup:
+        filter: "ansible_date_time"
+        gather_subset: "!all"
+
+    - name: Store date and time in yymmdd_hhmm format
+      set_fact:
+        dt: "{{ ansible_date_time.year}}{{ ansible_date_time.month }}{{ ansible_date_time.day }}_{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}"
+
+  run_once: true
+
+## Playbook to show running configuration and backup to files with localtime
+
+- hosts: all
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+   - name: Save running to starup config
+     nxos_command:
+       commands:
+         - copy running-config startup-config
+     when: ansible_network_os == 'cisco.nxos.nxos'
+   - name: Show Run on Device
+     nxos_command:
+       commands:
+         - show running-config
+     register: config_nxos
+     when: ansible_network_os == 'cisco.nxos.nxos'
+
+   - name: Create Directory {{inventory_hostname}}
+     file:
+      path: ./backups/{{inventory_hostname}}
+      state: directory
+
+   - name: Save output to backup folder
+     copy:
+       content: "{{config_nxos.stdout[0]}}"
+       dest: "./backups/{{inventory_hostname}}/{{hostvars.localhost.dt}}-{{inventory_hostname}}.cfg"
+     when: ansible_network_os == 'cisco.nxos.nxos'

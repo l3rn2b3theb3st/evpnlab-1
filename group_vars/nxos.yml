@@ -1,0 +1,7 @@
+---
+# Default NXOS Connectivity Variables
+
+ansible_network_os: "cisco.nxos.nxos"
+ansible_connection: "network_cli"
+mgmt_intf: Management0
+mgmt_vrf: management

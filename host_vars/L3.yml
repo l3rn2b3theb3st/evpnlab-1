@@ -1,0 +1,31 @@
+---
+# leaf 3
+Loopback0: 10.13.13.13/32
+Loopback1: 10.52.52.52/32
+interfaces:
+  - eos_if: "Ethernet49/1"    
+    desc: "LAB-LEAF-4_Ethernet49/1"    
+    enabled: true    
+    mode: layer2   
+  - eos_if: "Ethernet50/1"    
+    desc: "LAB-LEAF-4_Ethernet50/1"    
+    enabled: true    
+    mode: layer2    
+  - eos_if: "Ethernet51/1"    
+    desc: "LAB-SPINE-1_Ethernet3/1"    
+    enabled: true    
+    mode: layer3    
+    ipv4: 10.10.1.10/30
+  - eos_if: "Ethernet52/1"    
+    desc: "LAB-SPINE-2_Ethernet3/1"    
+    enabled: true    
+    mode: layer3    
+    ipv4: 10.10.2.10/30
+  - eos_if: "lo0"    
+    desc: "BGP_ID"    
+    enabled: true    
+    ipv4: 10.13.13.13/32
+  - eos_if: "lo1"    
+    desc: "anycast_distribute"    
+    enabled: true    
+    ipv4: 10.52.52.52/32

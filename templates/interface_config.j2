@@ -1,0 +1,11 @@
+{% for interface in interfaces %}
+interface Ethernet{{ interface.name }}
+  description {{ interface.description }}
+  no switchport
+  mtu 1550
+  ip address {{ interface.ip }}
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf UNDERLAY area 0.0.0.0
+  no shutdown
+{% endfor %}

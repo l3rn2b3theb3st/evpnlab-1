@@ -1,0 +1,56 @@
+---
+- name: "CONFIG DEVICE INTERFACES"
+  hosts: spine
+  gather_facts: no
+
+  tasks:
+#==================================== INTERFACES PHYSICAL CONFIG TASK =====================================
+  # tasks remove and configure for banner using "arista.eos.eos_banner"
+ 
+    # - name: Delete Loopback interface
+    #   arista.eos.eos_config:
+    #     lines:
+    #       - no interface Loopback0
+    #       - no interface Loopback1    
+
+    # - name: Delete Loopback interface
+    #   arista.eos.eos_config:
+    #     lines:
+    #       - default int Ethernet49/1
+    #       - default int Ethernet50/1   
+    #       - default int Ethernet51/1
+    #       - default int Ethernet52/1
+
+    # - name: Default interface parameters to default settings // NOT-WORK
+    #   arista.eos.eos_interfaces:
+    #     config:
+    #       - name: "{{ item.eos_if }}"
+    #     state: deleted
+    #   loop: "{{ interfaces }}"        
+
+    - name: configuration interafce routed mode and enable
+      arista.eos.eos_interfaces:
+        config:
+          - name: "{{ item.eos_if }}"
+            mode: "{{ item.mode }}"
+            enabled: "{{ item.enabled }}"
+            mtu: "9000"
+      when: item.mode is defined
+      loop: "{{ interfaces }}"
+
+    - name: configuration interafce description
+      arista.eos.eos_interfaces:
+        config:
+          - name: "{{ item.eos_if }}"
+            description: "{{ item.desc }}"
+      when: item.desc is defined
+      loop: "{{ interfaces }}"
+
+    - name: Configure interfaces - L3 IPv4
+      eos_l3_interfaces:
+        config:
+            - name: "{{ item.eos_if }}"
+              ipv4:
+              - address: "{{ item.ipv4 }}"
+      when: item.ipv4 is defined
+      loop: "{{ interfaces }}"
