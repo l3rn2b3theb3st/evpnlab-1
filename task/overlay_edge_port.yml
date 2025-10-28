@@ -1,0 +1,28 @@
+---
+- name: Configure L2 VNIs on Leaf Switches
+  hosts: leaf
+  gather_facts: no
+
+  tasks:
+    - name: Render L2 VNIs configuration
+      template:
+        src: ../templates/edge_port_config.j2
+        dest: ../tmp/edge_port_config_{{ inventory_hostname }}.cfg
+      delegate_to: localhost
+
+    - name: Default all edge interfaces before applying new config
+      nxos_config:
+        lines:
+          - "default interface Ethernet{{ item.key }}"
+      loop: "{{ edge_interfaces | dict2items }}"
+
+    - name: Push config to Nexus switch
+      nxos_config:
+        src: ../tmp/edge_port_config_{{ inventory_hostname }}.cfg
+        save_when: modified
+    
+    # - name: Push config to Nexus switch
+    #   nxos_config:
+    #     diff_against: intended
+    #     intended_config: ../tmp/edge_port_config_{{ inventory_hostname }}.cfg
+      

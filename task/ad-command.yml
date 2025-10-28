@@ -1,6 +1,6 @@
 ---
 - name: "CONFIG DEVICE INTERFACES"
-  hosts: all
+  hosts: leaf
   gather_facts: no
 
   tasks:
@@ -10,6 +10,7 @@
     - name: Send command to configure
       cisco.nxos.nxos_config:
         lines:
-          - int Loopback0
-          - ip router ospf {{ ospf_process }} area {{ ospf_area}}
+          - hardware access-list tcam region racl 512
+          - hardware access-list tcam region arp-ether 256 double-wide
+
 

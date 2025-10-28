@@ -1,0 +1,17 @@
+---
+- name: Configure L2 VNIs on Leaf Switches
+  hosts: leaf
+  gather_facts: no
+
+  tasks:
+    - name: Render L2 VNIs configuration
+      template:
+        src: ../templates/overlay_routing.j2
+        dest: ../tmp/overlay_routing_{{ inventory_hostname }}.cfg
+      delegate_to: localhost
+
+    - name: Push config to Nexus switch
+      nxos_config:
+        src: ../tmp/overlay_routing_{{ inventory_hostname }}.cfg
+        diff_against: running
+        save_when: modified

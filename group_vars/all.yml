@@ -21,7 +21,51 @@ ntp_servers:
     server1: 0.asia.pool.ntp.org  
     server2: 1.asia.pool.ntp.org
 timezone: Asia/Ho_Chi_Minh
+# VXLAN FABRIC PARAMETERS
 ospf_process: UNDERLAY_OSPF
 ospf_area: 0.0.0.0
 ospf_md5_key: Cisco2025
 BGP_ASN: 65100
+anycast_mac: 0000.abcd.1025
+#
+# global VLAN/VNI mappings
+vlans_global:
+  10:
+    name: Sale
+    vn_segment: 10010
+    anycast_ip: 192.168.10.254/24
+    mcast_group: 239.0.0.10
+    l3tag: 50001
+    vrf: TENANT_A
+  20:
+    name: Engineering
+    vn_segment: 10020
+    anycast_ip: 192.168.20.254/24
+    mcast_group: 239.0.0.20
+    l3tag: 50001
+    vrf: TENANT_A    
+  30:
+    name: DevOps
+    vn_segment: 10030
+    anycast_ip: 192.168.30.254/24
+    mcast_group: 239.0.0.30
+    l3tag: 50002
+    vrf: TENANT_B
+  40:
+    name: R&D
+    vn_segment: 10040
+    anycast_ip: 192.168.40.254/24
+    mcast_group: 239.0.0.40
+    l3tag: 50002
+    vrf: TENANT_B
+
+# global VRF/VNI mappings
+vrf_list:  
+  TENANT_A:
+    l3_vlan: 501
+    l3_vni: 50001
+    redistribute_direct: RM-DIRECT-A
+  TENANT_B:
+    l3_vlan: 502
+    l3_vni: 50002
+    redistribute_direct: RM-DIRECT-B

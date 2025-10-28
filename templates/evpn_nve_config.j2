@@ -1,0 +1,43 @@
+!# ===========================
+!# NXOS EVPN VLAN-VNI Configuration
+!# ===========================
+!# --- Configure TCAM region for Ingress ARP-Ether ACL 
+!# before configuring ARP supression ---
+!
+hardware access-list tcam region racl 512
+hardware access-list tcam region arp-ether 256 double-wide  
+!
+feature vn-segment-vlan-based
+!
+!# --- VLAN and VNI Mapping ---
+{% for vlan_id in vlans_local %}
+{% set vlan = vlans_global[vlan_id] %}
+vlan {{ vlan_id }}
+  name {{ vlan.name }}
+  vn-segment {{ vlan.vn_segment }}
+!
+{% endfor %}
+{% if role == "LEAF" %}
+!# --- NVE Interface Configuration ---
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback0
+{% for vlan_id in vlans_local %}
+{% set vlan = vlans_global[vlan_id] %}
+  member vni {{ vlan.vn_segment }}
+    mcast-group {{ vlan.mcast_group }}
+    suppress-arp
+{% endfor %}
+!
+!# --- EVPN VNI Configuration ---
+evpn
+{% for vlan_id in vlans_local %}
+{% set vlan = vlans_global[vlan_id] %}
+  vni {{ vlan.vn_segment }} l2
+    rd auto
+    route-target import auto
+    route-target export auto
+{% endfor %}
+!
+{% endif %}

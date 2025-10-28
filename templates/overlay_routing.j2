@@ -1,0 +1,87 @@
+feature fabric forwarding
+feature interface-vlan
+!
+fabric forwarding anycast-gateway-mac {{ anycast_mac }}
+!
+!{# ===========================
+!# L3 VLAN to L3VNI Mapping
+!# =========================== #}
+
+{% for vrf_name, vrf_data in vrf_list.items() %}
+vlan {{ vrf_data.l3_vlan }}
+  vn-segment {{ vrf_data.l3_vni }}
+  name {{ vrf_name }}_BRvLan
+{% endfor %}
+
+!# ===========================
+!# L3VNI & VRF Configuration
+!# ===========================
+{% for vrf_name, vrf_data in vrf_list.items() %}
+vrf context {{ vrf_name }}
+  vni {{ vrf_data.l3_vni }}
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+!
+{% endfor %}
+
+!
+!# ===========================
+!# L3 VLAN Interfaces
+!# ===========================
+!
+{% for vrf_name, vrf_data in vrf_list.items() %}
+interface Vlan{{ vrf_data.l3_vlan }}
+  no shutdown
+  description L3-VNI {{ vrf_name }}
+  vrf member {{ vrf_name }}
+  ip forward
+!
+{% endfor %}
+
+!# ===========================
+!# Tenant VLAN Interfaces (Local)
+!# ===========================
+{% for vlan_id in vlans_local %}
+{% set vlan_data = vlans_global[vlan_id] %}
+interface Vlan{{ vlan_id }}
+  no shutdown
+  vrf member {{ vlan_data.vrf }}
+  ip address {{ vlan_data.anycast_ip }} tag {{ vlan_data.l3tag }}
+  ip pim sparse-mode
+  fabric forwarding mode anycast-gateway
+!
+{% endfor %}
+
+!# ===========================
+!# NVE Interface Configuration
+!# ===========================
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback0
+!
+{# --- L3VNIs --- #}
+{%- for vrf_name, vrf_data in vrf_list.items() %}
+  member vni {{ vrf_data.l3_vni }} associate-vrf
+{% endfor %}
+!
+!# ===========================
+!# Route-Map Configuration
+!# ===========================
+{% for vrf_name, vrf_data in vrf_list.items() %}
+route-map {{ vrf_data.redistribute_direct }} permit 10
+  match tag {{ vrf_data.l3_vni }}
+!
+{% endfor %}
+
+!# ===========================
+!# BGP VRF Configuration
+!# ===========================
+router bgp {{ BGP_ASN}}
+{% for vrf_name, vrf_data in vrf_list.items() %}
+  vrf {{ vrf_name }}
+    address-family ipv4 unicast
+      redistribute direct route-map {{ vrf_data.redistribute_direct }}
+{% endfor %}

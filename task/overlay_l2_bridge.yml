@@ -1,0 +1,16 @@
+---
+- name: Configure L2 VNIs on Leaf Switches
+  hosts: leaf
+  gather_facts: no
+
+  tasks:
+    - name: Render L2 VNIs configuration
+      template:
+        src: ../templates/evpn_nve_config.j2
+        dest: ../tmp/evpn_nve_config_{{ inventory_hostname }}.cfg
+      delegate_to: localhost
+
+    - name: Push config to Nexus switch
+      nxos_config:
+        src: ../tmp/evpn_nve_config_{{ inventory_hostname }}.cfg
+        save_when: modified

@@ -1,0 +1,48 @@
+!# ===========================
+!# Leaf Interface Edge-port Configuration
+!# ===========================
+{% if role == "LEAF" %}
+!
+{% for iface, cfg in edge_interfaces.items() %}
+interface Ethernet{{ iface }}
+  description {{ cfg.description }}
+  no shutdown
+  switchport
+{% if cfg.port_type == "network" %}
+{% if cfg.mode == "access" %}
+  switchport mode access
+  switchport access vlan {{ cfg.access_vlan }}
+{% elif cfg.mode == "trunk" %}
+  switchport mode trunk
+  switchport trunk allowed vlan {{ cfg.trunk_allowed }}
+{% if cfg.native_vlan is defined and cfg.native_vlan|int != 1 %}
+  switchport trunk native vlan {{ cfg.native_vlan }}
+{% endif %}
+{% endif %}
+!
+{% elif cfg.port_type == "edge" %}
+  no cdp enable
+{% if cfg.mode == "access" %}
+  switchport mode access
+  switchport access vlan {{ cfg.access_vlan }}
+{% elif cfg.mode == "trunk" %}
+  switchport mode trunk
+  switchport trunk allowed vlan {{ cfg.trunk_allowed }}
+{% if cfg.native_vlan is defined and cfg.native_vlan|int != 1 %}
+  switchport trunk native vlan {{ cfg.native_vlan }}
+{% endif %}
+{% endif %}
+{% if cfg.spanning_tree is defined %}
+{% if cfg.spanning_tree == "edge" %}
+  spanning-tree port type edge
+{% elif cfg.spanning_tree == "trunk" %}
+  spanning-tree port type edge trunk
+{% endif %}
+{% endif %}
+{% if cfg.bpduguard is defined and cfg.bpduguard|lower == "enable" %}
+  spanning-tree bpduguard enable
+{% endif %}
+!
+{% endif %}
+{% endfor %}
+{% endif %}
