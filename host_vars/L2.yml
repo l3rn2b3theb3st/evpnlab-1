@@ -22,7 +22,7 @@ edge_interfaces:
   #   bpduguard: "enable"
 
   1/3:
-    description: "ESXi Host"
+    description: "Trunk Host"
     port_type: "edge"
     mode: "trunk"
     trunk_allowed: "10,20"

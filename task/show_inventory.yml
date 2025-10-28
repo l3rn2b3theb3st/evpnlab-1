@@ -1,0 +1,51 @@
+---
+  - name: GATHER FACTS FROM  DEVICES 
+    hosts: all
+    gather_facts: no 
+
+    tasks: 
+
+        - name: Gather hardware facts
+          cisco.nxos.nxos_facts:
+            gather_subset:
+              - hardware
+
+        # - name: Show summaries from all hosts
+        #   debug: 
+        #     var: ansible_facts
+
+        - name: Register facts per host
+          set_fact:
+            host_summary:
+              hostname: "{{ ansible_net_hostname }}"
+              platform: "{{ ansible_net_platform }}"
+              system: "{{ ansible_net_system }}"
+              version: "{{ ansible_net_version }}"
+              serialnum: "{{ ansible_net_serialnum | default('N/A') }}"
+
+        - name: Collect summaries from all hosts
+          run_once: true
+          delegate_to: localhost
+          vars:
+            header: "| Hostname | Platform | System | Version | Serial Number |\n|-----------|-----------|---------|----------|----------------|"
+          set_fact:
+            nxos_summary: "{{ hostvars | dict2items | map(attribute='value.host_summary') | select('defined') | list }}"
+
+        - name: Build summary table content
+          run_once: true
+          delegate_to: localhost
+          vars:
+            header: "| Hostname | Platform | System | Version | Serial Number |\n|-----------|-----------|---------|----------|----------------|"
+          set_fact:
+            summary_content: |
+              {{ header }}
+              {% for sw in nxos_summary %}
+              | {{ sw.hostname }} | {{ sw.platform }} | {{ sw.system }} | {{ sw.version }} | {{ sw.serialnum }} |
+              {% endfor %}
+
+        - name: Save summary table to file
+          run_once: true
+          delegate_to: localhost
+          copy:
+            dest: "../files/nxos_summary.md"
+            content: "{{ summary_content }}"

@@ -1,26 +1,21 @@
 ---
 # OOB Management network default gateway.
-mgmt_gateway: 192.168.69.1
 mgmt_interface: Management0
-log_host: 192.168.69.31
-#DNS and name-servers of the network device
+mgmt_vrf: mgmt
+# DNS and name-servers of the network device
 domain_name: l3ls.lab
-name_servers: 8.8.4.4 8.8.8.8
-ip_domain_lookup:
-  source_interfaces:
-    Management1:
-      vrf: mgmt
-#NTP servers of the network device
-# ntp_servers:
-#     - name: 0.asia.pool.ntp.org  
-#       preferred: true
-#       vrf: mgmt
-#     - name: 1.asia.pool.ntp.org
-#       vrf: mgmt
+name_servers: 
+    server1: 1.1.1.1
+    server2: 8.8.8.8
+# Sys servers the network device
+syslog_servers:
+    server1: 192.168.100.101
+    server2: 192.168.100.102
+# NTP servers the network device
 ntp_servers:
     server1: 0.asia.pool.ntp.org  
     server2: 1.asia.pool.ntp.org
-timezone: Asia/Ho_Chi_Minh
+timezone: Hanoi 7 0
 # VXLAN FABRIC PARAMETERS
 ospf_process: UNDERLAY_OSPF
 ospf_area: 0.0.0.0

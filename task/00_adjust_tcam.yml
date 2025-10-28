@@ -1,0 +1,28 @@
+---
+- name: "MODIFY NXOS TCAM"
+  hosts: all
+  gather_facts: no
+
+  tasks:
+
+  # TO FIX ARP SUPPRESSION ISSUE ON NEXUS SWITCHES
+    - name: Send command to configure
+      cisco.nxos.nxos_config:
+        lines:
+          - hardware access-list tcam region racl 512
+          - hardware access-list tcam region arp-ether 256 double-wide
+        diff_against: running  
+        save_when: modified
+
+  # RELOAD THE SWITCH TO APPLY THE CHANGES
+    - name: Save running configuration
+      cisco.nxos.nxos_config:
+        save_when: always
+
+    - name: Reload the switch
+      cisco.nxos.nxos_command:
+        commands:
+          - command: "reload"
+            prompt: "This command will reboot the system.*"
+            answer: "y"
+      ignore_errors: yes  # SSH will disconnect due to reload            

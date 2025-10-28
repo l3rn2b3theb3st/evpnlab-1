@@ -11,8 +11,10 @@
         src: ../templates/pim_config.j2
         dest: ../tmp/pim_config_{{ inventory_hostname }}.cfg
       delegate_to: localhost
+      register: rendered
 
     - name: Push config to Nexus switch
       nxos_config:
         src: ../tmp/pim_config_{{ inventory_hostname }}.cfg
         save_when: modified
+      when: rendered.changed

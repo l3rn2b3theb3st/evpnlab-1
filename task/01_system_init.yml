@@ -1,0 +1,89 @@
+---
+# task/system_init.yml 
+- name: "CONFIG BASIC SYSTEM "
+  hosts: all
+  gather_facts: no
+
+  tasks:
+#==================================== INIT SYSTEM TASK =====================================
+  # config hostname and domain name
+
+    - name: Configure hostname and domain name
+      nxos_system:
+        hostname: "{{ inventory_hostname }}"
+        domain_name: "{{ domain_name }}"
+
+    - name: configure name servers with VRF support
+      cisco.nxos.nxos_system:
+        name_servers:
+          - {server: "{{ name_servers.server1 }}", vrf: "{{ mgmt_vrf }}"}
+          - {server: "{{ name_servers.server2 }}", vrf: "{{ mgmt_vrf }}"}
+
+  # remove and configure for banner using "cisco.nxos.nxos_banner"
+ 
+    - name: Remove unneeded banners
+      nxos_banner:
+        banner: "{{ item }}"
+        state: absent
+      loop:
+      - motd
+      - exec
+
+    - name: Update login banner
+      nxos_banner:
+        banner: motd
+        text: "{{ lookup('file', '../files/raw_banner.cfg') }}"
+        state: present
+
+    - name: Update login banner
+      nxos_banner:
+        banner: exec
+        text: |
+               You are logged into {{ inventory_hostname }}
+        state: present
+
+  # configure name server and ntp
+
+    - name: configure command list
+      nxos_config:
+        lines:
+          - clock timezone {{timezone}}
+
+    - name: configure replace ntp-global
+      cisco.nxos.nxos_ntp_global:
+        config:
+          servers:
+            - server: "{{ntp_servers.server1}}"
+              vrf: "{{ mgmt_vrf }}"
+            - server: "{{ntp_servers.server2}}"
+              vrf: "{{ mgmt_vrf }}"	  
+        state: replaced
+
+  # tasks configure syslog server and logging
+
+    - name: Configure syslog
+      cisco.nxos.nxos_logging_global:
+        config:
+          console:
+            severity: informational
+          monitor:
+            severity: warning
+          ip:
+            access_list:
+              cache:
+                entries: 4096
+          facilities:
+            - facility: auth
+              severity: warning
+          hosts:
+            - host: "{{ syslog_servers.server1 }}"
+              severity: error
+              facility: local6
+              use_vrf: "{{ mgmt_vrf }}"
+            - host: "{{ syslog_servers.server2}}"
+              severity: alert
+              port: 1514
+              use_vrf: "{{ mgmt_vrf }}"
+          origin_id:
+            hostname: true
+        state: replaced

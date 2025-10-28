@@ -1,15 +1,15 @@
 ---
 
-  - name: OPERATIONAL COMMAND ON DEVICES
-    hosts: uat
+  - name: SHOW COMMAND ON DEVICES
+    hosts: all
     # connection: network_cli
     gather_facts: no
 
     tasks:
 
       - name: SEND A SINGLE COMMAND
-        eos_command:
-          commands: show lldp neighbor
+        nxos_command:
+          commands: show system uptime
         register: output
 
       - name: VIEW FIRST ELEMENT OF A LIST
@@ -17,7 +17,7 @@
           var: output['stdout'][0]
 
       # - name: SEND LIST OF COMMANDS
-      #   eos_command:
+      #   nxos_command:
       #     commands:
       #       # - show version
       #       - show ip interface brief

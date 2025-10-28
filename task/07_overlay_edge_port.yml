@@ -9,17 +9,20 @@
         src: ../templates/edge_port_config.j2
         dest: ../tmp/edge_port_config_{{ inventory_hostname }}.cfg
       delegate_to: localhost
+      register: rendered
 
-    - name: Default all edge interfaces before applying new config
-      nxos_config:
-        lines:
-          - "default interface Ethernet{{ item.key }}"
-      loop: "{{ edge_interfaces | dict2items }}"
+    # - name: Default all edge interfaces before applying new config
+    #   nxos_config:
+    #     lines:
+    #       - "default interface Ethernet{{ item.key }}"
+    #   loop: "{{ edge_interfaces | dict2items }}"
 
     - name: Push config to Nexus switch
       nxos_config:
         src: ../tmp/edge_port_config_{{ inventory_hostname }}.cfg
+        diff_against: running
         save_when: modified
+      when: rendered.changed  
     
     # - name: Push config to Nexus switch
     #   nxos_config:

@@ -2,8 +2,6 @@
 - name: Configure Cisco Nexus OSPF
   hosts: all
   gather_facts: no
-  # vars_files:
-  #   - vars/interfaces.yml
 
   tasks:
     - name: Enable OSPF feature (required)
@@ -11,9 +9,9 @@
         feature: ospf
         state: enabled
 
-    - name: Delete all OSPF processes from the device
-      cisco.nxos.nxos_ospfv2:
-        state: deleted
+    # - name: Delete all OSPF processes from the device
+    #   cisco.nxos.nxos_ospfv2:
+    #     state: deleted
 
     - name: Configure OSPF process
       cisco.nxos.nxos_ospfv2:
