@@ -1,0 +1,37 @@
+# Common NX-OS commands to collect
+show_command_groups:
+  show_pim_commands:
+    - show ip pim interface brief
+    - show ip pim rp
+    - show ip pim neighbor
+  show_nve_commands:
+    - show nve peers # Displays the status of the Network Virtualization Endpoint (NVE) tunnels to other VTEPs.
+    - show nve interface # Shows the status of the NVE overlay interface.
+    - show nve vni # Displays the status of each VXLAN Virtual Network Identifier (VNI).
+    - show nve vxlan-params # Displays VXLAN parameters like the UDP port used for encapsulation.
+    - show vxlan interface # Shows the status of the VXLAN logical interface.
+  show_bgp_commands:
+    - show ip bgp summary # Provides an overview of BGP neighbor relationships and their status.
+    - show ip bgp neighbors # Detailed information about each BGP neighbor.
+    - show ip bgp # Displays the BGP routing table.
+    - show ip bgp vrf all # Displays BGP routes for all VRFs.
+  show_evpn_commands:
+    - show bgp l2vpn evpn summary # Displays the EVPN routing table, showing routes for MACs and IP prefixes.
+    - show l2route evpn mac all # Displays Layer 2 routing information, including learned MAC addresses.
+    - show l2route evpn imet all # Shows Inclusive Multicast Ethernet Tag routes.
+    - show l2route evpn fl all # Shows FL (Forwarding) routes, which provide reachability information.
+    - show l2route evpn mac-ip all # Displays MAC-IP routes learned via EVPN.
+
+  show_ospf_commands:
+    - show ip ospf neighbor # Displays OSPF neighbor relationships and their status.
+    - show ip ospf interface brief # Provides a summary of OSPF-enabled interfaces.
+    - show ip ospf database # Displays the OSPF link-state database.
+    - show ip ospf vrf all # Displays OSPF information for all VRFs
+    - show ip ospf summary # Provides a summary of OSPF statistics and status.  
+  show_arp_commands:
+    - show ip arp # Displays the ARP table on the switch.
+    - show ip arp vrf all # Verifies the ARP table for all VRFs on the switch.
+    - show ip arp suppression-cache local # Checks the ARP suppression cache, which helps prevent duplicate MACs.
+    - show ip arp suppression-cache remote # Checks the ARP suppression cache, which helps prevent duplicate MACs.
+    - show ip arp suppression-cache summary # Checks the ARP suppression cache, which helps prevent duplicate MACs.
+    - show ip arp suppression-cache detail # Provides detailed information about the 

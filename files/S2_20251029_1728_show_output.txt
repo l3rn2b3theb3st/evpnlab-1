@@ -1,0 +1,275 @@
+===== DEVICE: S2 @ 20251029_1728 =====
+
+### SHOW_PIM_COMMANDS COMMANDS ###
+## Command: show ip pim interface brief
+PIM Interface Status for VRF "default"
+Interface            IP Address      PIM DR Address  Neighbor  Border
+                                                     Count     Interface
+loopback0            10.0.0.2        10.0.0.2        0         no
+loopback1            10.0.0.100      10.0.0.100      0         no
+Ethernet1/1          10.2.1.1        10.2.1.2        1         no
+Ethernet1/2          10.2.2.1        10.2.2.2        1         no
+Ethernet1/3          10.2.3.1        10.2.3.2        1         no
+
+## Command: show ip pim rp
+PIM RP Status Information for VRF "default"
+BSR disabled
+Auto-RP disabled
+BSR RP Candidate policy: None
+BSR RP policy: None
+Auto-RP Announce policy: None
+Auto-RP Discovery policy: None
+
+Anycast-RP 10.0.0.100 members:
+  10.0.0.1  10.0.0.2*  
+
+RP: 10.0.0.100*, (0), 
+ uptime: 1d01h   priority: 255, 
+ RP-source: (local),  
+ group ranges:
+ 239.0.0.0/8
+
+## Command: show ip pim neighbor
+PIM Neighbor Status for VRF "default"
+Neighbor        Interface            Uptime    Expires   DR       Bidir-  BFD    ECMP Redirect
+                                                         Priority Capable State     Capable
+10.2.1.2        Ethernet1/1          1d01h     00:01:36  1        yes     n/a     no
+10.2.2.2        Ethernet1/2          1d01h     00:01:30  1        yes     n/a     no
+10.2.3.2        Ethernet1/3          1d01h     00:01:38  1        yes     n/a     no
+
+### SHOW_NVE_COMMANDS COMMANDS ###
+## Command: show nve peers
+
+
+## Command: show nve interface
+
+
+## Command: show nve vni
+
+
+## Command: show nve vxlan-params
+VxLAN Dest. UDP Port: 4789
+
+## Command: show vxlan interface
+connect localhost:56000 failed: Connection refused
+
+No port-channels configured (0x0)
+
+### SHOW_BGP_COMMANDS COMMANDS ###
+## Command: show ip bgp summary
+BGP summary information for VRF default, address family IPv4 Unicast
+
+## Command: show ip bgp neighbors
+BGP prefix peer 10.0.0.0/24, remote AS 65100, ibgp link, Peer index 0
+  Instances:     10.0.0.11          10.0.0.12          10.0.0.13      
+  Using iod 5 (loopback0) as update source
+  Only passive connection setup allowed
+  Active peers 3 (0 closing), Maximum concurrent peers 3
+  Total peers accepted 3
+
+  For address family: L2VPN EVPN
+  Extended community attribute sent to this neighbor
+  Third-party Nexthop will not be computed.
+  Advertise GW IP is enabled
+  Route reflector client
+  Last End-of-RIB sent 0.000000 after session start
+  First convergence 0.000000 after session start with 0 routes sent
+
+## Command: show ip bgp
+
+
+## Command: show ip bgp vrf all
+
+
+### SHOW_EVPN_COMMANDS COMMANDS ###
+## Command: show bgp l2vpn evpn summary
+BGP summary information for VRF default, address family L2VPN EVPN
+BGP router identifier 22.22.22.22, local AS number 65100
+BGP table version is 259, L2VPN EVPN config peers 4, capable peers 3
+13 network entries and 13 paths using 3588 bytes of memory
+BGP attribute entries [8/2880], BGP AS path entries [0/0]
+BGP community entries [0/0], BGP clusterlist entries [0/0]
+
+Neighbor        V    AS    MsgRcvd    MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.0.0.11       4 65100       1569       1546      259    0    0    1d01h 3         
+10.0.0.12       4 65100       1572       1567      259    0    0    1d01h 4         
+10.0.0.13       4 65100       1597       1550      259    0    0    1d01h 6         
+
+Neighbor        T    AS PfxRcd     Type-2     Type-3     Type-4     Type-5    
+10.0.0.11       I 65100 3          2          0          0          1         
+10.0.0.12       I 65100 4          2          0          0          2         
+10.0.0.13       I 65100 6          4          0          0          2
+
+## Command: show l2route evpn mac all
+Flags -(Rmac):Router MAC (Stt):Static (L):Local (R):Remote 
+(Dup):Duplicate (Spl):Split (Rcv):Recv (AD):Auto-Delete (D):Del Pending
+(S):Stale (C):Clear, (Ps):Peer Sync (O):Re-Originated (Nho):NH-Override
+(Asy):Asymmetric (Gw):Gateway
+(Pf):Permanently-Frozen, (Orp): Orphan
+
+(PipOrp): Directly connected Orphan to PIP based vPC BGW 
+(PipPeerOrp): Orphan connected to peer of PIP based vPC BGW 
+Topology    Mac Address    Prod   Flags         Seq No     Next-Hops                              
+----------- -------------- ------ ------------- ---------- ---------------------------------------------------------
+
+## Command: show l2route evpn imet all
+Flags- (F): Originated From Fabric, (W): Originated from WAN
+
+Topology ID VNI         Prod  IP Addr                                 Flags  
+----------- ----------- ----- --------------------------------------- -------
+
+## Command: show l2route evpn fl all
+Topology ID Peer-id     Flood List                              Label(VNI) Service Node
+----------- ----------- -------------------------------------- ------------ ------------
+
+## Command: show l2route evpn mac-ip all
+Flags -(Rmac):Router MAC (Stt):Static (L):Local (R):Remote 
+(Dup):Duplicate (Spl):Split (Rcv):Recv(D):Del Pending (S):Stale (C):Clear
+(Ps):Peer Sync (Ro):Re-Originated (Orp):Orphan (Asy):Asymmetric (Gw):Gateway
+(Piporp): Directly connected Orphan to PIP based vPC BGW 
+(Pipporp): Orphan connected to peer of PIP based vPC BGW 
+Topology    Mac Address    Host IP                                 Prod   Flags         Seq No     Next-Hops                              
+----------- -------------- --------------------------------------- ------ ---------- ---------- ---------------------------------------------------------
+
+### SHOW_OSPF_COMMANDS COMMANDS ###
+## Command: show ip ospf neighbor
+OSPF Process ID UNDERLAY_OSPF VRF default
+ Total number of neighbors: 3
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 1.1.1.1           1 FULL/ -          1d01h    10.2.1.2        Eth1/1 
+ 2.2.2.2           1 FULL/ -          1d01h    10.2.2.2        Eth1/2 
+ 3.3.3.3           1 FULL/ -          1d01h    10.2.3.2        Eth1/3
+
+## Command: show ip ospf interface brief
+OSPF Process ID UNDERLAY_OSPF VRF default
+ Total number of interface: 5
+ Interface               ID     Area            Cost   State    Neighbors Status
+ Lo0                     1      0.0.0.0         1      LOOPBACK 0         up  
+ Lo1                     2      0.0.0.0         1      LOOPBACK 0         up  
+ Eth1/1                  5      0.0.0.0         40     P2P      1         up  
+ Eth1/2                  4      0.0.0.0         40     P2P      1         up  
+ Eth1/3                  3      0.0.0.0         40     P2P      1         up
+
+## Command: show ip ospf database
+OSPF Router with ID (22.22.22.22) (Process ID UNDERLAY_OSPF VRF default)
+
+                Router Link States (Area 0.0.0.0)
+
+Link ID         ADV Router      Age        Seq#       Checksum Link Count
+1.1.1.1         1.1.1.1         1495       0x80000036 0xbab3   5   
+2.2.2.2         2.2.2.2         1493       0x80000037 0x1b45   5   
+3.3.3.3         3.3.3.3         1489       0x80000038 0x7bd6   5   
+11.11.11.11     11.11.11.11     1491       0x80000039 0xef9b   8   
+22.22.22.22     22.22.22.22     1491       0x80000036 0x3af4   8
+
+## Command: show ip ospf vrf all
+Routing Process UNDERLAY_OSPF with ID 22.22.22.22 VRF default
+ Routing Process Instance Number 1
+ Stateful High Availability enabled
+ Graceful-restart is configured
+   Grace period: 60 state: Inactive 
+   Last graceful restart exit status: None
+ Supports only single TOS(TOS0) routes
+ Supports opaque LSA
+ Administrative distance 110
+ Reference Bandwidth is 40000 Mbps
+ SPF throttling delay time of 200.000 msecs,
+   SPF throttling hold time of 1000.000 msecs, 
+   SPF throttling maximum wait time of 5000.000 msecs
+ LSA throttling start time of 0.000 msecs,
+   LSA throttling hold interval of 5000.000 msecs, 
+   LSA throttling maximum wait time of 5000.000 msecs
+ Minimum LSA arrival 1000.000 msec
+ LSA group pacing timer 10 secs
+ Maximum paths to destination 8
+ Number of external LSAs 0, checksum sum 0
+ Number of opaque AS LSAs 0, checksum sum 0
+ Number of areas is 1, 1 normal, 0 stub, 0 nssa
+ Number of active areas is 1, 1 normal, 0 stub, 0 nssa
+ Install discard route for summarized external routes.
+ Install discard route for summarized internal routes.
+ Default Passive Interface is enabled
+ Number of new LSAs originated : 3
+ Number of new LSAs received : 205
+ RFC1583: Disabled, IOS Compatibility: Disabled
+   Area BACKBONE(0.0.0.0) 
+        Area has existed for 1d01h
+        Interfaces in this area: 5 Active interfaces: 5
+        Passive interfaces: 0  Loopback interfaces: 2
+        Message-digest authentication
+        SPF calculation has run 7 times
+         Last SPF ran for 0.000695s
+        Area ranges are
+        Number of LSAs: 5, checksum sum 0x27c5d
+
+## Command: show ip ospf summary
+
+
+### SHOW_ARP_COMMANDS COMMANDS ###
+## Command: show ip arp
+Flags: * - Adjacencies learnt on non-active FHRP router
+       + - Adjacencies synced via CFSoE
+       # - Adjacencies Throttled for Glean
+       CP - Added via L2RIB, Control plane Adjacencies
+       PS - Added via L2RIB, Peer Sync
+       RO - Re-Originated Peer Sync Entry
+       D - Static Adjacencies attached to down interface
+
+IP ARP Table for context default
+Total number of entries: 3
+Address         Age       MAC Address     Interface       Flags
+10.2.1.2        00:11:16  5201.af89.1b08  Ethernet1/1              
+10.2.2.2        00:11:17  520b.3abd.1b08  Ethernet1/2              
+10.2.3.2        00:11:17  5211.068b.1b08  Ethernet1/3
+
+## Command: show ip arp vrf all
+Flags: * - Adjacencies learnt on non-active FHRP router
+       + - Adjacencies synced via CFSoE
+       # - Adjacencies Throttled for Glean
+       CP - Added via L2RIB, Control plane Adjacencies
+       PS - Added via L2RIB, Peer Sync
+       RO - Re-Originated Peer Sync Entry
+       D - Static Adjacencies attached to down interface
+
+IP ARP Table for all contexts
+Total number of entries: 4
+Address         Age       MAC Address     Interface       Flags
+192.168.89.1    00:03:09  0050.569c.5cd0  mgmt0                    
+10.2.1.2        00:11:17  5201.af89.1b08  Ethernet1/1              
+10.2.2.2        00:11:17  520b.3abd.1b08  Ethernet1/2              
+10.2.3.2        00:11:17  5211.068b.1b08  Ethernet1/3
+
+## Command: show ip arp suppression-cache local
+Flags: + - Adjacencies synced via CFSoE
+       L - Local Adjacency
+       R - Remote Adjacency
+       L2 - Learnt over L2 interface
+
+Ip Address      Age      Mac Address    Vlan Physical-ifindex    Flags
+
+## Command: show ip arp suppression-cache remote
+Flags: + - Adjacencies synced via CFSoE
+       L - Local Adjacency
+       R - Remote Adjacency
+       L2 - Learnt over L2 interface
+       PS - Added via L2RIB, Peer Sync
+       RO - Dervied from L2RIB Peer Sync Entry
+
+Ip Address      Age      Mac Address    Vlan Physical-ifindex    Flags    Remote Vtep Addrs
+
+## Command: show ip arp suppression-cache summary
+IP ARP suppression-cache Summary
+Remote              :0
+Local               :0
+Total               :0
+
+## Command: show ip arp suppression-cache detail
+Flags: + - Adjacencies synced via CFSoE
+       L - Local Adjacency
+       R - Remote Adjacency
+       L2 - Learnt over L2 interface
+       PS - Added via L2RIB, Peer Sync
+       RO - Dervied from L2RIB Peer Sync Entry
+
+Ip Address      Age      Mac Address    Vlan Physical-ifindex    Flags    Remote Vtep Addrs
+

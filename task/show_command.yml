@@ -1,28 +1,54 @@
 ---
+## Playbook to get system time in format yyyymmdd_hhmm and append it to backup files
+- name: Gather Date/Time Facts and Store in Custom Format
+  hosts: localhost
+  gather_facts: yes
+  become: no
 
-  - name: SHOW COMMAND ON DEVICES
-    hosts: all
-    # connection: network_cli
-    gather_facts: no
+  tasks:
+    - name: Get ansible date/time facts
+      setup:
+        filter: "ansible_date_time"
+        gather_subset: "!all"
 
-    tasks:
+    - name: Store date and time in yymmdd_hhmm format
+      set_fact:
+        dt: "{{ ansible_date_time.year}}{{ ansible_date_time.month }}{{ ansible_date_time.day }}_{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}"
 
-      - name: SEND A SINGLE COMMAND
-        nxos_command:
-          commands: show system uptime
-        register: output
+  run_once: true
 
-      - name: VIEW FIRST ELEMENT OF A LIST
-        debug:
-          var: output['stdout'][0]
+## Playbook send command append it to a files with timestamp
 
-      # - name: SEND LIST OF COMMANDS
-      #   nxos_command:
-      #     commands:
-      #       # - show version
-      #       - show ip interface brief
-      #   register: output
+- name: Collect NX-OS show command outputs (dynamic loop)
+  hosts: all
+  gather_facts: no
+  connection: network_cli
 
-      # - name: VIEW SECOND ELEMENT OF A LIST
-      #   debug:
-      #     var: output['stdout'][1]
+  vars_files:
+    - ../templates/verify_command.yml
+
+  tasks:
+    - name: Run all show command groups
+      cisco.nxos.nxos_command:
+        commands: "{{ item.value }}"
+      loop: "{{ show_command_groups | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+      register: show_outputs
+
+    - name: Save all command outputs into one file per device
+      delegate_to: localhost
+      copy:
+        dest: "../files/{{ inventory_hostname }}_{{hostvars.localhost.dt}}_show_output.txt"
+        content: |
+          ===== DEVICE: {{ inventory_hostname }} @ {{hostvars.localhost.dt}} =====
+
+          {% for group in show_outputs.results %}
+          ### {{ group.item.key | upper }} COMMANDS ###
+          {% for cmd in group.item.value %}
+          ## Command: {{ cmd }}
+          {{ group.stdout[loop.index0] | default('No output') }}
+
+          {% endfor %}
+          {% endfor %}
+
