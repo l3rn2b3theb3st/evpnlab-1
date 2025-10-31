@@ -173,12 +173,8 @@ nodes:
           no password strength-check
           username admin role network-admin
           username admin password C1sco1234 role network-admin
-          username devnetad role network-admin
-          username devnetad password C1sco1234 role network-admin
-          username ndfcad role network-admin
-          username ndfcad password C1sco1234 role network-admin
           !
-          username devnetad sshkey ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDJmwKCrxdz7QBw5HDVqHqXBHLKmCA6D/StidqFxv1g7xUEKok5rZtL2U5C1QrT9HNPF702fXtI8HCYzX64rlXpdzdKIig4f5lXAapazO4sf90rPHxCiN6MN2s8SM2IDu/sne79t7kmAXyy87ga0boRHUf4UNbRaX2Qvdk84eoPyw== nexusos
+          !
           !
           int mgmt0
           ip address dhcp
@@ -311,12 +307,8 @@ nodes:
           no password strength-check
           username admin role network-admin
           username admin password C1sco1234 role network-admin
-          username devnetad role network-admin
-          username devnetad password C1sco1234 role network-admin
-          username ndfcad role network-admin
-          username ndfcad password C1sco1234 role network-admin
           !
-          username devnetad sshkey ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDJmwKCrxdz7QBw5HDVqHqXBHLKmCA6D/StidqFxv1g7xUEKok5rZtL2U5C1QrT9HNPF702fXtI8HCYzX64rlXpdzdKIig4f5lXAapazO4sf90rPHxCiN6MN2s8SM2IDu/sne79t7kmAXyy87ga0boRHUf4UNbRaX2Qvdk84eoPyw== nexusos
+          !
           !
           int mgmt0
           ip address dhcp
@@ -449,12 +441,8 @@ nodes:
           no password strength-check
           username admin role network-admin
           username admin password C1sco1234 role network-admin
-          username devnetad role network-admin
-          username devnetad password C1sco1234 role network-admin
-          username ndfcad role network-admin
-          username ndfcad password C1sco1234 role network-admin
           !
-          username devnetad sshkey ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDJmwKCrxdz7QBw5HDVqHqXBHLKmCA6D/StidqFxv1g7xUEKok5rZtL2U5C1QrT9HNPF702fXtI8HCYzX64rlXpdzdKIig4f5lXAapazO4sf90rPHxCiN6MN2s8SM2IDu/sne79t7kmAXyy87ga0boRHUf4UNbRaX2Qvdk84eoPyw== nexusos
+          !
           !
           int mgmt0
           ip address dhcp
@@ -587,12 +575,8 @@ nodes:
           no password strength-check
           username admin role network-admin
           username admin password C1sco1234 role network-admin
-          username devnetad role network-admin
-          username devnetad password C1sco1234 role network-admin
-          username ndfcad role network-admin
-          username ndfcad password C1sco1234 role network-admin
           !
-          username devnetad sshkey ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDJmwKCrxdz7QBw5HDVqHqXBHLKmCA6D/StidqFxv1g7xUEKok5rZtL2U5C1QrT9HNPF702fXtI8HCYzX64rlXpdzdKIig4f5lXAapazO4sf90rPHxCiN6MN2s8SM2IDu/sne79t7kmAXyy87ga0boRHUf4UNbRaX2Qvdk84eoPyw== nexusos
+          !
           !
           int mgmt0
           ip address dhcp
@@ -725,12 +709,8 @@ nodes:
           no password strength-check
           username admin role network-admin
           username admin password C1sco1234 role network-admin
-          username devnetad role network-admin
-          username devnetad password C1sco1234 role network-admin
-          username ndfcad role network-admin
-          username ndfcad password C1sco1234 role network-admin
           !
-          username devnetad sshkey ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDJmwKCrxdz7QBw5HDVqHqXBHLKmCA6D/StidqFxv1g7xUEKok5rZtL2U5C1QrT9HNPF702fXtI8HCYzX64rlXpdzdKIig4f5lXAapazO4sf90rPHxCiN6MN2s8SM2IDu/sne79t7kmAXyy87ga0boRHUf4UNbRaX2Qvdk84eoPyw== nexusos
+          !
           !
           int mgmt0
           ip address dhcp
