@@ -20,9 +20,5 @@
         save_when: always
 
     - name: Reload the switch
-      cisco.nxos.nxos_command:
-        commands:
-          - command: "reload"
-            prompt: "This command will reboot the system.*"
-            answer: "y"
-      ignore_errors: yes  # SSH will disconnect due to reload            
+      cisco.nxos.nxos_reboot:
+        confirm: true      

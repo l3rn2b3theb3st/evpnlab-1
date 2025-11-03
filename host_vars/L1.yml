@@ -11,6 +11,7 @@ interfaces:
     ip: 10.2.1.2/30
 vlans_local:
   - 10
+
 edge_interfaces:
   1/3:
     description: "Downlink to PC"
